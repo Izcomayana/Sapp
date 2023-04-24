@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <Home class="w-2/4 h-screen" />
+    <Home class="w-2/4 min-h-screen" />
     
     <slot class="w-/4 h-screen" />
   </div>

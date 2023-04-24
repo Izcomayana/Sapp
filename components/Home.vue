@@ -26,7 +26,7 @@
             </div>
           </div>
           
-          <div class="flex items-center ml-6">
+          <div class="flex items-center">
             <div
               class="bg-gray-400 rounded-full w-4 h-4 flex flex-shrink-0 justify-center items-center relative"
             >
@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <div class="flex items-center ml-6">
+          <div class="flex items-center">
             <div
               class="bg-gray-600 rounded-full w-4 h-4 flex flex-shrink-0 justify-center items-center relative"
             >
