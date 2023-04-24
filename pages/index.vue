@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center ml-3">
-    <div class="m-20 md:mt-28">
+    <div class="m-20 lg:mt-28 lg:mx-20">
       <h1 class="text-primary text-5xl font-bold leading-8">Sign In</h1>
       <div>
         <form class="mt-10">
@@ -30,14 +30,18 @@
             </label>
             <span class="flex flex-row justify-between items-center gap-[12px] w-[464px] h-[52px] relative">
               <input
-                type="email"
+                :type="isPasswordVisible ? 'text' : 'password'" 
+                v-model="password"
                 class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 placeholder="*************"
               />
-              <img src="../assets/eye.png" alt="mail" class="absolute right-3" />
+              <button @click="togglePasswordVisibility" type="button"  class="absolute right-3" >
+                <img v-if="!isPasswordVisible" src="../assets/eye.png" alt="show"/>
+                <img v-else src="../assets/eye.svg" alt="hide">
+              </button>
             </span>
           </div>
-          <button
+          <button type="submit"
             class="bg-[#F0AB20] text-primary w-[464px] h-[52px] p-3 rounded-[6px] text-xl font-bold hover:bg-[#c88e1a] transition-all mt-8"
           >
             Sign In
@@ -54,7 +58,25 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import { ref } from "vue"
+
+export default {
+  setup() {
+    const password = ref('');
+    const isPasswordVisible = ref(false);
+
+    function togglePasswordVisibility() {
+      isPasswordVisible.value = !isPasswordVisible.value;
+    }
+
+    return {
+      password,
+      isPasswordVisible,
+      togglePasswordVisibility,
+    };
+  }
+}
 </script>
 
 <style scoped>

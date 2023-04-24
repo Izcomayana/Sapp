@@ -5,6 +5,9 @@ export const theme = {
     colors: {
       'primary': '#18345E',
     },
+    screens: {
+      'lg': '998px',
+    }
   },
 };
 export const plugins = [];

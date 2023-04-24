@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-primary backdrop-blur-md hidden md:flex justify-center items-center">
+  <div class="bg-primary backdrop-blur-md hidden lg:flex justify-center items-center">
     <div class="flex flex-col">
       <div class="w-[377px] h-[318px] my-0 mx-auto">
         <img src="../assets/sapp.png" alt="sapp" class="w-full h-full" />
