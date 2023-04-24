@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lg:w-fit w-full">
     <SignIn />
   </div>
 </template>
