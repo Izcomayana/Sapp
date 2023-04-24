@@ -35,13 +35,18 @@
                 class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 placeholder="*************"
               />
-              <button @click="togglePasswordVisibility" type="button"  class="absolute right-3" >
+              <button 
+                type="button" 
+                class="absolute right-3" 
+                @click="togglePasswordVisibility" 
+              >
                 <img v-if="!isPasswordVisible" src="../assets/eye.png" alt="show"/>
                 <img v-else src="../assets/eye.svg" alt="hide">
               </button>
             </span>
           </div>
-          <button type="submit"
+          <button 
+            type="submit"
             class="bg-[#F0AB20] text-primary w-[464px] h-[52px] p-3 rounded-[6px] text-xl font-bold hover:bg-[#c88e1a] transition-all mt-8"
           >
             Sign In
