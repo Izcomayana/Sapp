@@ -76,6 +76,7 @@
                     v-model="password"
                     class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                     placeholder="*************"
+                    @input="validatePassword"
                     required
                   />
                   <button 
@@ -101,6 +102,7 @@
                     v-model="confirmPassword"
                     class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                     placeholder="**********"
+                    @input="validateConfirmPassword"
                     required
                   />
                   <button 
@@ -131,9 +133,9 @@
                     :for="criterion.name"
                     :class="criterion.isChecked === 'yes' ? 'text-[#22C1DC]' : 'text-primary'"
                   >
-                    {{ criterion.label }}
+                    {{ criterion.label }} 
                   </label>
-                  <span :class="criterion.isChecked === 'yes' ? 'hidden' : 'required'">*</span>
+                  <span :class="criterion.isChecked === 'yes' ? 'hidden' : 'required'">{{ index }}*</span>
                 </div>
               </div>
             </div>
@@ -167,14 +169,14 @@ export default {
     const firstName = ref('John');
     const lastName = ref('Emanuela');
     const email = ref('johndoe@gmail.com');
-    const password = ref('Mayana12');
-    const confirmPassword = ref('Mayana12');
+    const password = ref('');
+    const confirmPassword = ref('');
     const isPasswordVisible = ref(false);
     const criteria = ref([
-      { label: 'At least 8 characters', name: 'length', isChecked: 'no', required: true },
       { label: 'Contains at least one uppercase letter', name: 'uppercase', isChecked: 'no', required: true },
-      { label: 'Contains lowercase letters', name: 'lowercase', isChecked: 'no', required: true },
+      { label: 'Contains at least one special character', name: 'specialCharacter', isChecked: 'no', required: true },
       { label: 'Contains numbers', name: 'numbers', isChecked: 'no', required: true },
+      { label: 'Passowords are matching', name: 'passwordCheck', isChecked: 'no', required: true },
     ]);
 
     const togglePasswordVisibility = () => {
@@ -195,30 +197,37 @@ export default {
     }
 
     watch(password, (newValue) => {
+      const lengthRegex = /.{8,}/;
+      const numberRegex = /\d+/;
+      const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+      // const specialCharRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const upperCaseRegex = /[A-Z]/;
+      const passwordRegex = confirmPassword.value === password.value;
+
       let count = 0;
 
-      if (newValue.length >= 8) {
+      if (/[A-Z]/.test(newValue)) {
         criteria.value[0].isChecked = 'yes';
         count++;
       } else {
         criteria.value[0].isChecked = 'no';
       }
 
-      if (/[A-Z]/.test(newValue)) {
+      if (specialCharRegex.test(newValue)) {
         criteria.value[1].isChecked = 'yes';
         count++;
       } else {
         criteria.value[1].isChecked = 'no';
       }
 
-      if (/[a-z]/.test(newValue)) {
+      if (/\d/.test(newValue)) {
         criteria.value[2].isChecked = 'yes';
         count++;
       } else {
         criteria.value[2].isChecked = 'no';
       }
 
-      if (/\d/.test(newValue)) {
+      if (password.value === confirmPassword.value || confirmPassword.value === password.value ) {
         criteria.value[3].isChecked = 'yes';
         count++;
       } else {
