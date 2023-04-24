@@ -135,7 +135,7 @@
                   >
                     {{ criterion.label }} 
                   </label>
-                  <span :class="criterion.isChecked === 'yes' ? 'hidden' : 'required'">{{ index }}*</span>
+                  <span :class="criterion.isChecked === 'yes' ? 'hidden' : 'required'">*</span>
                 </div>
               </div>
             </div>
@@ -176,7 +176,7 @@ export default {
       { label: 'Contains at least one uppercase letter', name: 'uppercase', isChecked: 'no', required: true },
       { label: 'Contains at least one special character', name: 'specialCharacter', isChecked: 'no', required: true },
       { label: 'Contains numbers', name: 'numbers', isChecked: 'no', required: true },
-      { label: 'Passowords are matching', name: 'passwordCheck', isChecked: 'no', required: true },
+      // { label: 'Passowords are matching', name: 'passwordCheck', isChecked: 'no', required: true },
     ]);
 
     const togglePasswordVisibility = () => {
@@ -197,12 +197,7 @@ export default {
     }
 
     watch(password, (newValue) => {
-      const lengthRegex = /.{8,}/;
-      const numberRegex = /\d+/;
       const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
-      // const specialCharRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      const upperCaseRegex = /[A-Z]/;
-      const passwordRegex = confirmPassword.value === password.value;
 
       let count = 0;
 
@@ -227,20 +222,19 @@ export default {
         criteria.value[2].isChecked = 'no';
       }
 
-      if (password.value === confirmPassword.value || confirmPassword.value === password.value ) {
-        criteria.value[3].isChecked = 'yes';
-        count++;
-      } else {
-        criteria.value[3].isChecked = 'no';
-      }
+      // if (password.value === confirmPassword.value) {
+      //   criteria.value[3].isChecked = 'yes';
+      //   count++;
+      // } else {
+      //   criteria.value[3].isChecked = 'no';
+      // }
     });
 
     const submitForm = () => {
       if(confirmPassword.value !== password.value) {
         alert('confirm password is different from password')
       } else if (isEmailValid(email.value)) {
-        // email is valid, submit the form
-        alert('Form submitted!');
+        alert('Account Created Successfully!');
         firstName.value = ""
         lastName.value = ""
         email.value = ""
