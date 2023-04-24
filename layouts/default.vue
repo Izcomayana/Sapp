@@ -10,9 +10,6 @@
   import Home from '~/components/Home.vue';
    
   export default {
-    head: {
-      title: 'Sapp'
-    },
     components: {
       Home
     }

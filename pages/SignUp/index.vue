@@ -158,6 +158,23 @@
         </p>
       </div>
     </div>
+
+    <div v-if="showModal" @click="showModal = false">
+        <div class="fixed z-10 inset-0 overflow-y-auto">
+          <div class="flex items-center justify-center min-h-screen">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75"></div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-lg">
+              <div class="px-6 py-4">
+                <div class="flex items-center justify-between">
+                </div>
+                <p class="mt-4">
+                  Log In Successfully ✔
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -165,10 +182,15 @@
 import { ref, watch, computed } from "vue"
 
 export default {
+  head() {
+    return {
+      title: 'New Title'
+    }
+  },
   setup() {
-    const firstName = ref('John');
-    const lastName = ref('Emanuela');
-    const email = ref('johndoe@gmail.com');
+    const firstName = ref('');
+    const lastName = ref('');
+    const email = ref('');
     const password = ref('');
     const confirmPassword = ref('');
     const isPasswordVisible = ref(false);
@@ -178,6 +200,7 @@ export default {
       { label: 'Contains numbers', name: 'numbers', isChecked: 'no', required: true },
       // { label: 'Passowords are matching', name: 'passwordCheck', isChecked: 'no', required: true },
     ]);
+    const showModal = ref(false);
 
     const togglePasswordVisibility = () => {
       isPasswordVisible.value = !isPasswordVisible.value;
@@ -234,12 +257,12 @@ export default {
       if(confirmPassword.value !== password.value) {
         alert('confirm password is different from password')
       } else if (isEmailValid(email.value)) {
-        alert('Account Created Successfully!');
         firstName.value = ""
         lastName.value = ""
         email.value = ""
         password.value = ""
         confirmPassword.value = ""
+        showModal.value = true;
       } else {
         alert('invalid email')
       }
@@ -255,6 +278,7 @@ export default {
       isEmailValid,
       togglePasswordVisibility,
       criteria,
+      showModal,
       hasRequiredFields,
       updateCriterion,
       submitForm,

@@ -51,6 +51,10 @@
           <button 
             type="submit"
             class="bg-[#F0AB20] text-primary w-[464px] h-[52px] p-3 rounded-[6px] text-xl font-bold hover:bg-[#c88e1a] transition-all mt-8 disabled:opacity-25"
+            data-te-toggle="modal"
+            data-te-target="#exampleModalCenter"
+            data-te-ripple-init
+            data-te-ripple-color="light"
             @click="submitForm"
             :disabled="!email || !password"
             >
@@ -64,6 +68,23 @@
           </span>
         </p>
       </div>
+
+      <div v-if="showModal" @click="showModal = false">
+        <div class="fixed z-10 inset-0 overflow-y-auto">
+          <div class="flex items-center justify-center min-h-screen">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75"></div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-lg">
+              <div class="px-6 py-4">
+                <div class="flex items-center justify-between">
+                </div>
+                <p class="mt-4">
+                  Log In Successfully ✔
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +97,7 @@ export default {
     const email = ref('');
     const password = ref('');
     const isPasswordVisible = ref(false);
+    const showModal = ref(false)
 
     function togglePasswordVisibility() {
       isPasswordVisible.value = !isPasswordVisible.value;
@@ -88,9 +110,9 @@ export default {
 
     const submitForm = () => {
       if (isEmailValid(email.value)) {
-        alert('logged in successfully')
         email.value = ""
         password.value = ""
+        showModal.value = true;
       } else {
         alert('invalid email')
       }
@@ -100,6 +122,7 @@ export default {
       email,
       password,
       isPasswordVisible,
+      showModal,
       togglePasswordVisibility,
       isEmailValid,
       submitForm
