@@ -56,54 +56,75 @@
             </span>
           </div>
 
-          <div class="flex justify-between">
-            <div class="mb-6 flex flex-col">
-              <label 
-                for="password" 
-                class="text-primary text-xl mb-4"
-              >
-                Password
-              </label>
-              <span class="flex flex-row justify-between items-center gap-[12px] w-[220px] h-[52px] relative">
-                <input
-                  :type="isPasswordVisible ? 'text' : 'password'" 
-                  v-model="password"
-                  class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                  placeholder="*************"
-                />
-                <button 
-                  type="button" 
-                  class="absolute right-3" 
-                  @click="togglePasswordVisibility" 
+          <div class="flex flex-col justify-between">
+            <div class="flex justify-between">
+              <div class="mb-6 flex flex-col">
+                <label 
+                  for="password" 
+                  class="text-primary text-xl mb-4"
                 >
-                  <img v-if="!isPasswordVisible" src="../../assets/eye.png" alt="show"/>
-                  <img v-else src="../../assets/eye.svg" alt="hide">
-              </button>
-              </span>
-            </div>
-            <div class="mb-6 flex flex-col">
-              <label 
-                for="confirmpassword" 
-                class="text-primary text-xl mb-4"
-              >
-                Confirm Password
-              </label>
-              <span class="flex flex-row justify-between items-center gap-[12px] w-[220px] h-[52px] relative">
-                <input
-                  :type="isPasswordVisible ? 'text' : 'password'" 
-                  v-model="conFirmassword"
-                  class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                  placeholder="**********"
-                />
-                <button 
-                  type="button" 
-                  class="absolute right-3" 
-                  @click="togglePasswordVisibility" 
-                >
-                  <img v-if="!isPasswordVisible" src="../../assets/eye.png" alt="show"/>
-                  <img v-else src="../../assets/eye.svg" alt="hide">
+                  Password
+                </label>
+                <span class="flex flex-row justify-between items-center gap-[12px] w-[220px] h-[52px] relative">
+                  <input
+                    :type="isPasswordVisible ? 'text' : 'password'" 
+                    v-model="password"
+                    class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    placeholder="*************"
+                  />
+                  <button 
+                    type="button" 
+                    class="absolute right-3" 
+                    @click="togglePasswordVisibility" 
+                  >
+                    <img v-if="!isPasswordVisible" src="../../assets/eye.png" alt="show"/>
+                    <img v-else src="../../assets/eye.svg" alt="hide">
                 </button>
-              </span>
+                </span>
+              </div>
+              <div class="mb-6 flex flex-col">
+                <label 
+                  for="confirmpassword" 
+                  class="text-primary text-xl mb-4"
+                >
+                  Confirm Password
+                </label>
+                <span class="flex flex-row justify-between items-center gap-[12px] w-[220px] h-[52px] relative">
+                  <input
+                    :type="isPasswordVisible ? 'text' : 'password'" 
+                    v-model="confirmPassword"
+                    class="rounded-[6px] text-primary bg-[#F4F2F2] w-full h-full absolute p-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    placeholder="**********"
+                  />
+                  <button 
+                    type="button" 
+                    class="absolute right-3" 
+                    @click="togglePasswordVisibility" 
+                  >
+                    <img v-if="!isPasswordVisible" src="../../assets/eye.png" alt="show"/>
+                    <img v-else src="../../assets/eye.svg" alt="hide">
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div>
+                <div v-for="(criterion, index) in criteria" :key="index">
+                  <input type="radio"
+                    :name="criterion.name"
+                    :value="'yes'"
+                    :checked="criterion.isChecked === 'yes'"
+                    class="mr-2 appearance-none border rounded-full border-gray-400 w-3.5 h-3.5 checked:border-none checked:bg-[#22C1DC]"
+                    disabled
+                  /> 
+                  <span 
+                    :class="criterion.isChecked === 'yes' ? 'text-[#22C1DC]' : 'text-primary'"
+                  >
+                      {{ criterion.label }}
+                  </span>
+                  <br />
+                </div>
+              </div>
             </div>
           </div>
           
@@ -126,23 +147,62 @@
 </template>
 
 <script>
-import { ref } from "vue"
+import { ref, watch } from "vue"
 
 export default {
   setup() {
     const password = ref('');
     const confirmPassword = ref('');
     const isPasswordVisible = ref(false);
+    const criteria = ref([
+      { label: 'At least 8 characters', name: 'length', isChecked: 'no' },
+      { label: 'Contains uppercase letters', name: 'uppercase', isChecked: 'no' },
+      { label: 'Contains lowercase letters', name: 'lowercase', isChecked: 'no' },
+      { label: 'Contains numbers', name: 'numbers', isChecked: 'no' },
+    ]);
 
     function togglePasswordVisibility() {
       isPasswordVisible.value = !isPasswordVisible.value;
     }
+
+    watch(password, (newValue) => {
+      let count = 0;
+
+      if (newValue.length >= 8) {
+        criteria.value[0].isChecked = 'yes';
+        count++;
+      } else {
+        criteria.value[0].isChecked = 'no';
+      }
+
+      if (/[A-Z]/.test(newValue)) {
+        criteria.value[1].isChecked = 'yes';
+        count++;
+      } else {
+        criteria.value[1].isChecked = 'no';
+      }
+
+      if (/[a-z]/.test(newValue)) {
+        criteria.value[2].isChecked = 'yes';
+        count++;
+      } else {
+        criteria.value[2].isChecked = 'no';
+      }
+
+      if (/\d/.test(newValue)) {
+        criteria.value[3].isChecked = 'yes';
+        count++;
+      } else {
+        criteria.value[3].isChecked = 'no';
+      }
+    });
 
     return {
       password,
       confirmPassword,
       isPasswordVisible,
       togglePasswordVisibility,
+      criteria,
     };
   }
 }
