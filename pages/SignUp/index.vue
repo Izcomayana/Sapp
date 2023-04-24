@@ -168,7 +168,7 @@
                 <div class="flex items-center justify-between">
                 </div>
                 <p class="mt-4">
-                  Log In Successfully ✔
+                  Account Created Successfully ✔
                 </p>
               </div>
             </div>
